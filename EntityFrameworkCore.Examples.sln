@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Examples.Web", "EntityFramework.Examples.Web\EntityFramework.Examples.Web.csproj", "{4BCE0D90-93B6-41AB-814B-10D43A68F99B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BCE0D90-93B6-41AB-814B-10D43A68F99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCE0D90-93B6-41AB-814B-10D43A68F99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCE0D90-93B6-41AB-814B-10D43A68F99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCE0D90-93B6-41AB-814B-10D43A68F99B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
