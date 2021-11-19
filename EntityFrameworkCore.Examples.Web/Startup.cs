@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EntityFrameworkCore.Examples.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +20,12 @@ namespace EntityFramework.Examples.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Used to inject in ApplicationDbContext, to fetch request query parameters
+            services.AddHttpContextAccessor();
+
+            // Add Application Db Context
+            services.AddDbContext<ApplicationDbContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -51,8 +54,34 @@ namespace EntityFramework.Examples.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Person}/{id?}");
             });
+            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            
+            // Create the 3 different sqlite datasources
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                dbContext.SetConnectionString(ConnectionStrings.Cs_1);
+                dbContext.Database.Migrate();
+            }
+
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                dbContext.SetConnectionString(ConnectionStrings.Cs_2);
+                dbContext.Database.Migrate();
+            }
+
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                dbContext.SetConnectionString(ConnectionStrings.Cs_Default);
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

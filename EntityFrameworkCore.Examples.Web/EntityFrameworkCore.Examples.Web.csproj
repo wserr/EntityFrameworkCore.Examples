@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>EntityFramework.Examples.Web</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EntityFrameworkCore.Examples.Persistence\EntityFrameworkCore.Examples.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="data_1.db" />
+    </ItemGroup>
+
+</Project>
