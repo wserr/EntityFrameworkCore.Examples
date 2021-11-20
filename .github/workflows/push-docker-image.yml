@@ -28,4 +28,12 @@ jobs:
       - name: Step 4 - Push image
         run: docker push registry.willemserruys.com/efcore_test:latest
 
+      - name: Step 5 - Restart kubernetes deployment via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          USERNAME: ${{ secrets.SSH_USERNAME }}
+          PORT: ${{ secrets.SSH_PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: microk8s kubectl rollout restart deployment efcoretest
     
