@@ -1,5 +1,7 @@
 # EntityFrameworkCore.Examples
 
+[![.github/workflows/push-docker-image.yml](https://github.com/wserr/EntityFrameworkCore.Examples/actions/workflows/push-docker-image.yml/badge.svg)](https://github.com/wserr/EntityFrameworkCore.Examples/actions/workflows/push-docker-image.yml)
+
 See [live demo here](https://efcoretest.willemserruys.com)
 
 This repo contains examples for EF Core usage.
