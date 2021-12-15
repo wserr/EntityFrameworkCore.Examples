@@ -1,40 +1,22 @@
-on:
-  push:
-    branches: ['master']
+name: Show Me the S3cr3tz
+on: [push]
 
 jobs:
-  # `build` is a user-defined name for this job
-  push:
-    # Set the base environment to run the Action on
+  debug:
+    name: Debug
     runs-on: ubuntu-latest
 
     steps:
-      - name: Step 1 - Git checkout
-        uses: actions/checkout@v1
+    - name: Check out code
+      uses: actions/checkout@v2
 
-      - name: Step 2 - echo Branch name
-        run: echo running on branch ${GITHUB_REF##*/}
+    - name: Set up secret file
+      env:
+        DEBUG_PASSWORD: ${{ secrets.DEBUG_PASSWORD }}
+        DEBUG_SECRET_KEY: ${{ secrets.DEBUG_SECRET_KEY }}
+      run: |
+        echo $DEBUG_PASSWORD >> secrets.txt
+        echo $DEBUG_SECRET_KEY >> secrets.txt
 
-      - name: Login to Registry
-        uses: docker/login-action@v1
-        with:
-          registry: registry.willemserruys.com
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: Step 3 - Build build image
-        run: docker build -f EntityFrameworkCore.Examples.Web/Dockerfile . -t registry.willemserruys.com/efcore_test:latest
-
-      - name: Step 4 - Push image
-        run: docker push registry.willemserruys.com/efcore_test:latest
-
-      - name: Step 5 - Restart kubernetes deployment via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          USERNAME: ${{ secrets.SSH_USERNAME }}
-          PASSPHRASE: ${{ secrets.SSH_PASSWORD }}
-          PORT: ${{ secrets.SSH_PORT }}
-          KEY: ${{ secrets.SSH_KEY }}
-          script: microk8s kubectl rollout restart deployment efcoretest
-    
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2
